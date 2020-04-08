@@ -20,6 +20,9 @@ fun main(args: Array<String>) {
     }
 
     cases("hello")
+
+//    int[] array = new int[]{1,2,3};  // Java Array
+    var array: IntArray = intArrayOf(1,2,3)
 }
 
 fun cases(obj: Any) {
