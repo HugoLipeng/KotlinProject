@@ -1,6 +1,7 @@
 package com.hugo.excise
 
 class Person(val name: String){
+
     fun printName(){
         println(name)
     }

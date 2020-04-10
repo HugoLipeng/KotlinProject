@@ -13,4 +13,4 @@ package com.hugo.excise.SealedClass
 //
 //object Stop: PlayerCmd()
 
-class Whatever : PlayerCmd()
+//class Whatever : PlayerCmd()
