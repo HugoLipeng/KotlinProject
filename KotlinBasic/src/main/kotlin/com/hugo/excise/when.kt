@@ -13,4 +13,12 @@ fun main(args: Array<String>) {
         args.isNotEmpty() && args[0] == "1" -> 1
         else -> 0
     }
+    val score = getScore("Tom")
+    println(score)
+}
+
+fun getScore(name: String) = when (name) {
+    "Tom" -> 86
+    "Jim" -> 77
+    else -> 0
 }
