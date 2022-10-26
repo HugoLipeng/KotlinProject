@@ -58,6 +58,6 @@ fun main() {
 //    val text = "Kotlin is my favorite language. I love Kotlin!"
 //    val result = TextProcessorV1().processText(text)
 //    println(result)
-    val result = TextProcessorV1().processFile(File("./test-text.txt"))
+    val result = TextProcessorV1().processFile(File("./src/main/kotlin/com/hugo/excise/jktime/textprocessor/test-text.txt"))
     println(result)
 }
