@@ -17,6 +17,7 @@ class TextProcessorV1 {
     }
 
     private fun clean(text: String): String {
+        // [^A-Za-z] 不是英文字母的字符 替换为 空格
         return text.replace("[^A-Za-z]".toRegex(), " ")
             .trim()
     }
