@@ -106,6 +106,58 @@ Kotlin和Java一样是单继承语言，实现多态需要有接口。一个类�
 
 接口中的函数不要求有函数体
 
+#### 单例类
+
+java单例模式
+
+```
+    public class Singleton{
+
+        private static Singleton instance;
+
+        private Singleton(){}
+
+        public synchronized static Singleton getInstance(){
+            if (instance =null) {
+                instance new Singleton();
+            }
+                return instance;
+        }
+        
+        public void singletonTest(){
+            System.out.println("singletonTest is called.");
+        }
+
+    }
+```
+
+这段代码其实很好理解，首先为了禁止外部创建Singletoni的实例，我们需要用private关键字将
+
+Singleton的构造函数私有化，然后给外部提供了一个getInstance()静态方法用于获取Singleton的实例。在getInstance()方法中，我们判断如果当前缓存的Singleton实例为null，就创建一个新的实例，
+
+否则直接返回缓存的实例即可，这就是单例模式的工作机制。
+
+而如果我们想调用单例类中的方法，也很简单，比如想调用上述的singletonTest()方法，就可以这样写：
+
+```
+Singleton singleton Singleton.getInstance(); 
+singleton.singletonTest();
+```
+
+在Kotlin中创建一个单例类的方式极其简单，只需要将class关键字改成object关键字即可。现在我们尝试创建一个Kotlin版的Singleton单例类，右击com.example.helloworld包→New→Kotlin File/Class，在弹出的对话框中输入“Singleton”，创建类型选择“Object”，点击“OK”完成创建，初始代码如下所示：
+
+```
+object Singleton{
+		fun singletonTest(){
+				println("singletonTest is called.") 
+		}
+}
+
+Singleton.singletonTest()
+```
+
+
+
 #### Lambda编程
 
 list集合：
