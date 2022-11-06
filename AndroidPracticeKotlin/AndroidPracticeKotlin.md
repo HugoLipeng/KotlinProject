@@ -1,5 +1,7 @@
 # Android-第一行代码Kotlin读书笔记
 
+[TOC]
+
 
 
 ### 第一行代码Kotlin笔记
@@ -104,7 +106,8 @@ Kotlin和Java一样是单继承语言，实现多态需要有接口。一个类�
 
 接口中的函数不要求有函数体
 
-Lambda编程
+#### Lambda编程
+
 list集合：
 
 listOf：不可变的集合
@@ -230,7 +233,8 @@ fun doStudy(study: Study?) {
 
 这里说的空是指null，而不是说空字符串
 
-Kotlin中的小魔术
+#### Kotlin中的小魔术
+
 介绍一下小技巧
 
 字符串内嵌表达式
@@ -270,11 +274,13 @@ printParams(str = "world")
 
 正因为函数参数默认值和键值对传参的机制，Kotlin中可以在主构造函数中指定参数默认值从而代替次构造函数。
 
-chap3 Kotlin标准函数和静态方法
-标准函数
+#### chap3 Kotlin标准函数和静态方法
+
+##### 标准函数
+
 Kotlin的标准函数指的是Standard.kt文件中定义的函数。
 
-with函数
+##### with函数
 
 现在有如下程序，利用StringBuilder构造吃水果的字符串，然后打印出来
 
@@ -310,7 +316,7 @@ val result = with(StringBuilder()) {
 
 最后一行代码作为with函数的返回值返回。
 
-run函数
+##### run函数
 
 run函数和with函数非常类似，run函数会在某个对象的基础上调用，而且只接收一个Lambda参数
 
@@ -326,7 +332,7 @@ result.run {
 }
 ```
 
-apply函数
+##### apply函数
 
 apply函数和run函数很相似，都在某个对象的基础上调用，只接收一个Lambda参数，但apply函数无法指定返回值。
 
@@ -342,7 +348,8 @@ result.apply {
 println(result.toString())
 ```
 
-静态方法
+##### 静态方法
+
 静态方法是指无需创建实例就能调用的方法。Java中加上Static关键字就可以了
 
 静态方法非常适合编写工具类的一些功能，因为工具类通常没有创建实例的必要。
@@ -367,7 +374,7 @@ class Util {
 
 但其实严格上，doAction2也不是静态方法，使用companion object关键字定义的方法，会在Util类内创建一个伴生类，保证这个伴生类只有一个实例，然后再调用这个伴生类实例的方法。
 
-定义真正的静态方法
+##### 定义真正的静态方法
 
 Kotlin提供了两种实现方式：注解和顶层方法
 
@@ -390,7 +397,8 @@ companion object {
 
 但是在Java中，任何函数都应该定义在类内，比如我们在Helper.kt中定义了一个顶层方法doSomething()，在Java中可以使用HelperKt.doSomething()的方式调用。
 
-chap4 延迟初始化和密封类
+#### chap4 延迟初始化和密封类
+
 对变量延迟初始化
 Kotlin中变量不可为空减少了程序的Bug，但有时用起来不方便，每次都需要判空处理，，即使你确定他们不为空。
 
@@ -496,8 +504,10 @@ fun getResultMsg(result: Result) = when(result) {
 
 和interface的区别在于，密封类是一个类，继承时需要加括号(构造函数)，这时在when语句内我们可以不写else分支，Kotlin会检查密封类有哪些子类，并强制要求你将所有子类对应的分支都处理。密封类及其子类只能在定义在同一个文件的顶层位置，不能定义成内部类。
 
-chap5 高阶函数详解
-定义高阶函数
+#### chap5 高阶函数详解
+
+##### 定义高阶函数
+
 如果一个函数接收另一个函数作为参数，或者返回值类型是函数，则该函数称为高阶函数。
 
 函数类型的基本规则：
@@ -573,7 +583,8 @@ fun main() {
 
 这里build函数传入了一个函数类型的参数，这个函数类型是() -> Unit，所以Lambda表达式中也没有参数，但最后一行会作为Lambda表达式的返回值，查询StringBuilder.append()函数返回值类型是StringBuilder而非Unit，所以很疑惑这里为啥给Unit返回类型也可以，经过尝试将Unit改成StringBuilder可以得出一样的结果，这种是说得通的。、
 
-内联函数的作用
+##### 内联函数的作用
+
 kotlin的高阶函数、Lambda底层的实现方式是匿名类，因此会有创建和调用匿名类的开销，为了消除运行时的额外开销，可以将高阶函数声明成内联函数。关键字是inline:
 
 ```
@@ -672,3 +683,12 @@ Android Studio ShortCut
 快速删除一行：ctrl + Y
 
 删除一行并清空剪切板：ctrl + X
+
+
+
+
+
+
+### 参考
+
+https://blog.csdn.net/m0_56348460/category_11631624.html
