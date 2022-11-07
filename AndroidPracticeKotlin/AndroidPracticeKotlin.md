@@ -209,7 +209,8 @@ Kotlin代码调用Java方法时也可以使用函数式API，不过有限制：J
 
 kotlin中舍弃了new关键字，创建匿名对象用object关键字
 
-Kotlin可空的类型系统
+#### Kotlin可空的类型系统
+
 Kotlin为了解决空指针异常的问题，会再编译时进行判空检查，即所有变量和参数都不可为空，否则编译不通过。而当我们想要某个变量就是为空时，可以采用可为空的类型系统，即在类名后再加一个问号，但还是得将潜在的空指针异常都给处理掉，否则编译无法通过。
 
 ```
@@ -246,7 +247,8 @@ fun printUpperCase() {
 }
 ```
 
-let工具
+##### let工具
+
 let是一个函数，提供了函数式API的编程接口，并将原始调用对象作为参数传递到Lambda表达式中：
 
 ```
@@ -289,7 +291,8 @@ fun doStudy(study: Study?) {
 
 介绍一下小技巧
 
-字符串内嵌表达式
+##### 字符串内嵌表达式
+
 规则如下：
 
 "hello, my name is ${obj.name}, nice to meet you!"
@@ -300,7 +303,8 @@ fun doStudy(study: Study?) {
 
 这样做就不需要很多加号来连接字符串了
 
-函数参数的默认值
+##### 函数参数的默认值
+
 规则如下：
 
 ```
@@ -727,7 +731,8 @@ inline fun runRunnable(crossinline block: () -> Unit) {
 }
 ```
 
-Android Studio ShortCut
+#### Android Studio ShortCut
+
 注释：Ctrl+/
 
 自动对齐：shift + alt + L
