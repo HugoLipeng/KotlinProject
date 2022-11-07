@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var name: String
@@ -12,15 +13,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val image = findViewById<View>(R.id.imageView)
-        val editText = findViewById<View>(R.id.editText)
         var test = MainActivity()
         test.init()
         vars(1, 2, 3, 4, 5)
 
 
         // 1 原始代码，它的本质是用 object 关键字定义了一个匿名内部类
-        image.setOnClickListener { v ->
+        imageView.setOnClickListener { v ->
             AlertDialog.Builder(this@MainActivity).apply {
                 setTitle("this is Dialog")
                 setMessage("Something important")
