@@ -368,9 +368,9 @@ val result = with(StringBuilder()) {
 }
 ```
 
-我们传给with表达式的第一个参数作为Lambda表达式的上下文。所以可以直接调用append。
+首先我们给with函数的第一个参数传入了一个StringBuilder对象，那么接下来整个Lambda表达式的上下文就会是这个StringBuilder对象。于是我们在Lambda表达式中就不用再像刚才那样调用builder.append()和builder.toString()方法了，而是可以直接调用append()和toString()方法。
 
-最后一行代码作为with函数的返回值返回。
+Lambda表达式的最后一行代码会作为with函数的返回值返回，最终我们将结果打印出来。
 
 ##### run函数
 
