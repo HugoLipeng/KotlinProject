@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val msgList = ArrayList<Msg>()
 
-    private lateinit var adapter: MsgAdapter
+    private lateinit var adapter: MsgAdapter //对全局变量进行延迟初始化 lateinit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         initMsg()
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        if (!::adapter.isInitialized) {
+        if (!::adapter.isInitialized) { // 用于判断adapter变量是否已经初始化
             adapter = MsgAdapter(msgList)
         }
         recyclerView.adapter = adapter

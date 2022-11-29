@@ -1,4 +1,4 @@
-package com.example.uibestpractice
+package com.hugo.excise.view
 
 class Msg(val content: String, val type: Int) {
     companion object {

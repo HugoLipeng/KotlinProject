@@ -1,6 +1,6 @@
-package com.example.uibestpractice
+package com.hugo.excise.view
 
-sealed class Result
+sealed class Result // 密封类 sealed class
 
 class Success(val msg: String) : Result()
 

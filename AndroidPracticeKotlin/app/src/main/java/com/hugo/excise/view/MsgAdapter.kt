@@ -1,4 +1,4 @@
-package com.example.uibestpractice
+package com.hugo.excise.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
