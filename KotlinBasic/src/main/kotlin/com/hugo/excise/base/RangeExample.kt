@@ -1,4 +1,4 @@
-package com.hugo.excise
+package com.hugo.excise.base
 
 val range: IntRange = 0..1024
 val range_exclusive: IntRange = 0 until 1024

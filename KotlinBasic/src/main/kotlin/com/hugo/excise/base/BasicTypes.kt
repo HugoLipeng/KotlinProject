@@ -1,4 +1,4 @@
-package com.hugo.excise
+package com.hugo.excise.base
 
 val aBoolean: Boolean = true
 val anotherBoolean: Boolean = false

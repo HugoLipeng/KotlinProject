@@ -1,4 +1,4 @@
-package com.hugo.excise
+package com.hugo.excise.base
 
 /**
  * 可变参数 vararg

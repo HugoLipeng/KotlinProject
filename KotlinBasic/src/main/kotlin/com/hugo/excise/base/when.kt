@@ -1,4 +1,4 @@
-package com.hugo.excise
+package com.hugo.excise.base
 
 fun main(args: Array<String>) {
     val x = 5

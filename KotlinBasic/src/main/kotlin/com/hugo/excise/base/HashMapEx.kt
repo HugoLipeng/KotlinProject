@@ -1,4 +1,4 @@
-package com.hugo.excise
+package com.hugo.excise.base
 
 fun main(){
     val map = mapOf("apple" to 1,"banana" to 2,"Orange" to 3)

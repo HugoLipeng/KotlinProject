@@ -1,4 +1,4 @@
-package com.hugo.excise
+package com.hugo.excise.base
 
 val string: String = "HelloWorld"
 val fromChars: String = String(charArrayOf('H', 'e', 'l', 'l', 'o', 'W', 'o', 'r', 'l', 'd'))
