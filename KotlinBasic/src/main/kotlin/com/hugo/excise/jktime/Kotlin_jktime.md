@@ -25,3 +25,36 @@ fun `is`() {
 
 
 
+#### static 方法
+
+上文已经提到过，在 Kotlin 中没有 `static`关键字,那么如果在 Java 代码中想要通过类名调用一个 Kotlin 类的方法，你需要给这个方法加入`@JvmStatic`注解（这个注解只在 jvm 平台有用）。否则你必须通过对象调用这个方法。
+
+```kotlin
+StringUtils.isEmpty("hello");  
+StringUtils.INSTANCE.isEmpty2("hello");
+
+object StringUtils {
+    @JvmStatic fun isEmpty(str: String): Boolean {
+        return "" == str
+    }
+
+    fun isEmpty2(str: String): Boolean {
+        return "" == str
+    }
+}
+```
+
+如果你阅读 Kotlin 代码，应该经常看到这样一种写法。
+
+```kotlin
+class StringUtils {
+    companion object {
+       fun isEmpty(str: String): Boolean {
+            return "" == str
+        }
+    }
+}
+```
+
+`companion object`表示外部类的一个伴生对象，你可以把他理解为外部类自动创建了一个对象作为自己的`field`。
+与上面的类似，Java 在调用时，可以这样写：`StringUtils.Companion.isEmpty();`(1.1以后可以省略中间的 Companion，写作 `StringUtils.isEmpty())`
