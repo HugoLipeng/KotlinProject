@@ -1,9 +1,19 @@
 package com.hugo.excise.base
 
-class Person(val name: String){
+class Person(private var name: String) {
 
-    fun printName(){
-        println(name)
+    private var description: String? = null
+
+    init {
+        name = "Hugo"
+    }
+
+    constructor(name: String, description: String) : this(name) {
+        this.description = description
+    }
+
+    internal fun printName() {
+        println("my name is $name")
     }
 }
 
