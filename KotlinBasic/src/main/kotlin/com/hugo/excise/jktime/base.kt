@@ -17,6 +17,7 @@ fun main(args: Array<String>) {
     print(s)
 
     val arraystring = arrayOf("apple", "pear")
+    // println 输出其参数并添加换行符，以便接下来输出的内容出现在下一行。
     println("Size is ${arraystring.size}")
     println("First element is ${arraystring[0]}")
 
