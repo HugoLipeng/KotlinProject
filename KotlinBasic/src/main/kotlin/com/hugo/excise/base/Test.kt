@@ -81,6 +81,7 @@ fun printProduct(arg1: String,arg2: String){
 
 fun getStringLength(obj: Any): Int? {
 //    if(obj is String) {
+//        //`obj` 在该条件分支内自动转换成 `String`
 //        return obj.length
 //    }
 //
