@@ -29,7 +29,15 @@ when(x) {
 }
 ```
 
+### Try 是一个表达式
 
+`try` 是一个表达式，意味着它可以有一个返回值：
+
+```kotlin
+val a: Int? = try { input.toInt() } catch (e: NumberFormatException) { null }
+```
+
+`try`-表达式的返回值是 `try` 块中的最后一个表达式或者是（所有）`catch` 块中的最后一个表达式。 `finally` 块中的内容不会影响表达式的结果。
 
 ### Kotlin中的集合
 
