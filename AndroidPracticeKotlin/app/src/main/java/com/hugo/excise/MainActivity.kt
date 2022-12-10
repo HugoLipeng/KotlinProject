@@ -1,12 +1,18 @@
 package com.hugo.excise
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.uibestpractice.Msg
-import com.example.uibestpractice.MsgAdapter
+import com.hugo.excise.view.Msg
+import com.hugo.excise.view.MsgAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.BufferedReader
+import java.io.BufferedWriter
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -50,5 +56,40 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val msg3 = Msg("This is Tom. Nice talking to you. ", Msg.TYPE_RECEIVED)
         msgList.add(msg3)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val inputText = inputText.text.toString()
+        save(inputText)
+    }
+
+    private fun save(inputText: String) {
+        try {
+            val output = openFileOutput("data", Context.MODE_PRIVATE)
+            val writer = BufferedWriter(OutputStreamWriter(output))
+            writer.use {
+                it.write(inputText)
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun load(): String {
+        val content = StringBuffer()
+        try {
+            val input = openFileInput("data")
+            val reader = BufferedReader(InputStreamReader(input))
+            reader.use {
+                reader.forEachLine {
+                    content.append(it)
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return content.toString()
+    }
+
 
 }
