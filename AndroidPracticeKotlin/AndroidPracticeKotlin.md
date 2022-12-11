@@ -8,6 +8,18 @@
 
 #### 基础语法
 
+- 优先使用val
+
+- object实际上修饰类之后,是一个单例.并不是静态方法.
+
+- 函数式api: any:是否存在一个满足条件,all: 是否全部都满足
+
+- 空安全辅助: `?.` `?:` `?.let` , 其中let的这种方式,对于全局变量空安全也是适用的,而if判空则不行.
+
+- lateinit 延迟初始化,有时候一些全局变量在使用的时候肯定是不为空的(使用之前就肯定能得到初始化),但是,每次在使用的时候依然需要进行判空处理,麻烦.直接用lateinit就行.
+
+  
+
 when条件语句
 
 Kotlin中的when语句类似于Java中的switch语句，但好用的多。
@@ -454,6 +466,24 @@ companion object {
 
 但是在Java中，任何函数都应该定义在类内，比如我们在Helper.kt中定义了一个顶层方法doSomething()，在Java中可以使用HelperKt.doSomething()的方式调用。
 
+
+
+object
+
+用object修饰的类,实际上是单例类,在Kotlin中调用时是类名加方法直接使用.
+
+companion object
+
+用companion object修饰的方法也能通过类名加.直接调用,但是这时通过伴生对象实现的.在原有类中生成一个伴生类,Kotlin会保证这个伴生类只有一个对象.
+
+@JvmStatic注解
+
+给单例类(object)和伴生对象的方法加@JvmStatic注解,这时编译器会将这些方法编译成真正的静态方法.
+
+顶层方法
+
+Kotlin会将所有的顶层方法全部编译成静态方法.
+
 #### chap4 延迟初始化和密封类
 
 对变量延迟初始化
@@ -742,6 +772,329 @@ inline fun runRunnable(crossinline block: () -> Unit) {
 
 删除一行并清空剪切板：ctrl + X
 
+
+
+#### SQLite数据库操作
+
+其实我们可以对数据进行的操作无非有4种，即CRUD。其中C代表添加（create），R代表查询（retrieve），U代表更新（update），D代表删除（delete）。每一种操作都对应了一种SQL命令，如果你比较熟悉SQL语言的话，一定会知道添加数据时使用insert，查询数据时使用select，更新数据时使用update，删除数据时使用delete。
+
+
+
+#### 泛型和委托
+
+##### 泛型
+
+给方法加泛型
+
+```kotlin
+fun <T> method(param: T) : T {
+    return param;
+}
+```
+
+给类加泛型
+
+```kotlin
+class MyClass<T> {
+    fun method(param: T) : T {
+        return param;
+    }
+}
+```
+
+##### 委托
+
+委托是一种设计模式,它的基本理念是: 操作对象自己不会去处理某段逻辑,而是会把工作委托给另外一个辅助对象去处理.
+
+好处: 如果一个类,让大部分的方法实现都是调用辅助对象中的方法,而少部分的方法是自己实现的,这种情况,就是委托模式的意义所在.
+
+类委托
+
+kotlin支持类委托给另一个辅助对象,语法层面就支持,拥有辅助对象的所有功能,还能自己去实现或构建独有功能. 直接通过关键字by完成,简化自己去编写模板代码
+
+```kotlin
+//MySet中有所有Set接口中的功能,和HashSet保持一致, 并且isEmpty是自己实现的
+class MySet<T>(val helperSet: HashSet<T>) : Set<T> by helperSet {
+
+    fun hello() = println("hello")
+
+    //演示,,,,
+    override fun isEmpty(): Boolean {
+        return true
+    }
+
+}
+```
+
+属性委托
+
+将一个属性的具体实现委托给另一个类去完成.
+
+#### 泛型高级特性
+
+##### 泛型实化
+
+Kotlin有内联函数,而内联函数是提替换到被调用的地方,所以不存在泛型擦除(泛型对于类型的约束只在编译期存在)问题.
+
+泛型实化书写,首先得是内联函数,其次得加reified关键字,然后可以在函数内获取当前指定泛型的实际类型
+
+```kotlin
+inline fun <reified T> getGenericType() = T::class.java
+
+val result1 = getGenericType<Int>()
+val result2 = getGenericType<String>()
+```
+
+#### 协程
+
+线程需要依靠操作系统的调度才能实现不同线程之间的切换.而协程可以在编程语言的层面实现不同协程之间的切换,从而大大提升并发编程的运行效率.
+
+协程允许在单线程模式下模拟多线程编程的效果,代码执行时的挂起与恢复完全是由编程语言来控制,和操作系统无关.
+
+- Kotlin for Java的协程并不属于广义的协程,而是一个线程框架
+- 可以用看起来同步的代码写出实质上异步的操作
+- suspend并不是拿来切线程的,而是用来做标记和提醒的,调用的时候需要放协程里面才行.
+- 协程是怎么切线程的:看Kotlin编译成的class对应的Java代码发现,其实就是将代码分块,某一块代码执行在1个线程,另一块代码执行在另一个线程中.在编译的时候就搞了这样的操作.
+
+##### 创建协程作用域
+
+**「GlobalScope.launch」**可以创建一个协程的作用域,传递给launch函数的代码块(Lambda表达式)就是在协程中运行的.
+
+```scss
+GlobalScope.launch {
+    println("codes run is coroutine scope")
+    //这里不是主线程   DefaultDispatcher-worker-1
+    println(Thread.currentThread().name)
+}
+```
+
+GlobalScope.launch创建的是顶层协程,当应用程序结束时也会跟着结束.
+
+可以在协程中加入delay()函数,delay()函数可以让当前协程延迟指定时间后再运行. delay是非阻塞式的挂起函数,它只会挂起当前协程.而Thread.sleep()会阻塞当前的线程,该线程的所有协程都会被阻塞.
+
+```scss
+GlobalScope.launch {
+    println("codes run is coroutine scope")
+    //这里不是主线程
+    println(Thread.currentThread().name)
+
+    delay(1000)
+    println("延迟之后的输出")
+}
+```
+
+runBlocking也能创建一个协程的作用域,它可以保证在协程作用域内的所有代码和子协程没有全部执行完之前一直阻塞当前线程.runBlocking函数通常只应该在测试环境下使用,在正式环境中容易产生性能上的问题.
+
+##### 创建多个协程
+
+```scss
+fun main() {
+    //创建多个协程
+    runBlocking {
+        launch {
+            println("launch1 ${Thread.currentThread().name}")
+            delay(1000)
+            println("launch1 finished")
+        }
+        launch {
+            println("launch2 ${Thread.currentThread().name}")
+            delay(1000)
+            println("launch2 finished")
+        }
+    }
+
+}
+```
+
+这里的launch函数和刚才的GlobalScope.launch不一样,这个launch只能在协程的作用域下面调用,且会创建一个子协程.子协程的特点是如果外层作用域的协程结束了,那么该作用域下的所有子协程也会一同结束.
+
+上面的输出如下:
+
+```css
+launch1 main
+launch2 main
+launch1 finished
+launch2 finished
+```
+
+日志是交叉打印的,很明显,这是并发执行的.但是线程却是相同的线程.这里由编程语言来决定如何在多个协程之间进行调度,让谁挂起,让谁运行.调度过程不需要操作系统参与,这使得协程并发效率出奇得高.
+
+##### suspend 挂起
+
+当需要将部分代码提取到一个单独的函数中,这个函数是没有协程作用域的.Kotlin提供一个suspend关键字,使用它可以将任意函数声明成挂起函数,挂起函数之间是可以互相调用的.
+
+suspend只能声明挂起函数,而不能提供协程作用域,在里面调用launch(必须在协程作用域调用才行)是不得行的.要想有协程作用域,可以使用coroutineScope.
+
+coroutineScope也是一个挂起函数,因此可以在其他任何挂起函数中调用.coroutineScope会继承外部的协程作用域并创建一个子作用域. 于是可以这样用:
+
+```kotlin
+suspend fun printDot() {
+    coroutineScope {
+        launch {
+            println(".")
+            delay(1000)
+            println("延迟之后的输出")
+        }
+    }
+}
+```
+
+coroutineScope有点类似runBlocking,保证其作用域内的所有代码和子线程全部执行完之前,会一直阻塞当前协程. 但是runBlocking会阻塞当前线程,影响较大.而coroutineScope只会阻塞当前协程,不会影响其他协程,也不会影响其他线程.
+
+可创建新的协程作用域:
+
+- GlobalScope.launch 可在任何地方调用
+- runBlocking 可在任何地方调用
+- lanuch
+- coruotineScope
+
+##### 更多的作用域构建器
+
+runBlocking会阻塞线程,只能在测试环境下使用.而GlobalScope.launch是顶层协程,比如在Activity中使用来请求网络,还没请求回来的时候,Activity已关闭,这时需要手动管理(去取消)这个顶层协程,比较麻烦. 调用下面的代码会取消顶层协程.
+
+```ini
+val job = GlobalScope.launch { }
+job.cancel()
+```
+
+但是实际项目中,一般会用CoroutineScope
+
+```scss
+val job = Job()
+//返回的是CoroutineScope对象  这里是调用的CoroutineScope方法
+val scope = CoroutineScope(job)
+scope.launch {
+
+}
+```
+
+所有使用CoroutineScope对象的launch创建的协程统统会被job所管理(都是在它的作用域下面).大大降低协程维护成本.
+
+##### 创建协程,并获取其执行结果
+
+使用async函数,就可以获取协程的执行结果.它会创建一个子协程,并返回Deferred对象,然后我们调用其await方法即可知道结果.下面是简单计算一下5+5
+
+```scss
+runBlocking {
+    val result = async {
+        delay(100)
+        5 + 5
+    }.await()
+    println(result)
+}
+```
+
+注意,调用await方法之后会阻塞当前协程,直到子协程拿到结果,才会执行后面的代码(对应上面是println语句).为了提高效率,可以先拿到返回Deferred对象,最后需要结果的时候才调用await方法
+
+```scss
+runBlocking {
+    val start = System.currentTimeMillis()
+    val deferred1 = async {
+        delay(1000)
+        5 + 5
+    }
+    val deferred2 = async {
+        delay(1000)
+        6 + 6
+    }
+    println("结果是 ${deferred1.await() + deferred2.await()}")
+    val end = System.currentTimeMillis()
+    println("花费时间: ${end - start}")
+}
+```
+
+##### withContext
+
+withContext大致是async函数的简化版,它是一个挂起函数,返回结果是withContext函数体内最后一行代码.相当于val result = async{5+5}.await()
+
+```scss
+runBlocking {
+    val result = withContext(Dispatchers.Default) {
+        5 + 5
+    }
+    println(result)
+}
+```
+
+调用withContext函数后,函数体内的代码会被立即执行,同时需要指定一个线程参数.这个参数有如下几个值:
+
+- Dispatchers.Default 会开启子线程,并使用一种较低并发的线程策略.适合计算密集型任务.
+- Dispatchers.IO 会开启子线程,并使用一种较高并发的线程策略.网络请求比较合适
+- Dispatchers.Main 不会开启子线程,而是在Android主线程执行代码.
+
+##### 使用协程简化回调
+
+suspendCoroutine 函数可以将当前协程立即挂起,然后在一个普通的线程执行lambda表达式中的代码.Lambda表达式的参数是一个Continuation参数,调用它的resume方法或resumeWithException可以让协程恢复执行.
+
+来看一段代码:
+
+```kotlin
+suspend fun request(address: String): String {
+    return suspendCoroutine { continuation ->
+        HttpUtil.sendHttpRequest(address, object : HttpCallbackListener {
+            override fun onFinish(response: String) {
+                continuation.resume(response)
+            }
+
+            override fun onError(e: Exception) {
+                continuation.resumeWithException(e)
+            }
+        })
+    }
+}
+
+GlobalScope.launch {
+    val response = request("https://www.baidu.com/")
+    Log.d("xfhy", "网络请求结果 : $response")
+}
+```
+
+将网络请求的代码用suspendCoroutine包装一下,免得每次去手动生成一个匿名类,然后在里面拿到结果的时候调用continuation的resume方法将结果返回,这样在外面即可拿到结果. 使用request方法请求网络,只需要写一句代码即可.上面为了实例,没有加try..catch.
+
+
+
+#### 将开源库发布到jcenter
+
+1. 先注册一个bintray账号.网址是`https://bintray.com`
+2. 然后在我的首页,点击`Add New Repository`创建一个新的仓库.仓库类型选择`Maven`,开源许可随便选,可以是`Apache-2.0`
+3. 回到我们编写的库中,在项目的build.gradle中引入`bintray-release`
+
+```arduino
+buildscript {
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.9.1'
+    }
+}
+```
+
+1. 然后在开源库Library的build.gradle中填写如下配置
+
+```ini
+apply plugin: 'com.novoda.bintray-release'
+publish {
+    userOrg = 'xfhy'//bintray.com用户名
+    groupId = 'com.permissionx.xfhy'//jcenter上的路径
+    artifactId = 'permissionx'//项目名称
+    repoName = "permissionx"
+    publishVersion = '1.0.0'//版本号
+    desc = 'Make Android runtime permission request easy'//描述，不重要
+    website = 'https://github.com/xfhy/PermissionX'//网站，不重要
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.9.1'
+    }
+}
+```
+
+1. 填写完成之后开始上传,在命令行输入`//上传命令: ./gradlew clean build bintrayUpload -PbintrayUser=xfhy -PbintrayKey=xxxxx -PdryRun=false` 其中PbintrayKey是Bintray的API key.
+2. 命令执行完成之后,到Bintray中找到之前创建的仓库,点进去详情,点击`Add to Jcenter`,发送申请.
+3. 几小时就能审核通过,然后就可以使用这个开源库了.
+4. 使用方式`implementation 'com.permissionx.xfhy:permissionx:1.0.0'`
 
 
 
