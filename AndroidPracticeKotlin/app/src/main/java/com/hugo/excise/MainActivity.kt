@@ -3,8 +3,11 @@ package com.hugo.excise
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hugo.excise.inter.HttpCallbackListener
+import com.hugo.excise.utils.HttpUtil
 import com.hugo.excise.view.Msg
 import com.hugo.excise.view.MsgAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -31,6 +34,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         recyclerView.adapter = adapter
         send.setOnClickListener(this)
+        getResponse()
+    }
+
+    private fun getResponse() {
+        HttpUtil.sendHttpRequest("https://www.baidu.com/", object : HttpCallbackListener {
+            override fun onFinish(response: String) {
+                Log.d("hugo", "response: $response")
+            }
+
+            override fun onError(e: Exception) {
+            }
+        })
     }
 
     override fun onClick(v: View?) {
