@@ -192,3 +192,13 @@ String lastChar = EXTKt.getLastChar(s);
 * launch：Job    用于执行协程任务
 
 * async/await：Deterred  用于执行协程任务，并得到执行结果
+
+
+
+#### 特殊的启动协程方式
+
+* buildSequence./yield:Sequence 用于执行会多次返回数据的协程任务
+
+* buildlterator:Iterator  与buildSequence类似,只是返回值不同，由于Sequence本身就包含了一个lterator,所以通常不使用ouildIterator
+
+* produce Channel   用于执行协程任务,并得到一个channel
