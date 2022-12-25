@@ -4,7 +4,7 @@
 
 [极客时间视频课《快速上手 Kotlin 开发》中代码](https://github.com/kymjs/KotlinPrimer)
 
-
+https://www.zhihu.com/column/c_1458591689334415361
 
 ### Kotlin与Java的一些交互
 
@@ -168,3 +168,27 @@ String lastChar = EXTKt.getLastChar(s);
 ```
 
 参考：https://segmentfault.com/a/1190000041713663
+
+
+
+
+
+### 协程
+
+协程通过提升CPU利用率，减少线程切换，进而提升程序运行效率
+
+* 可控制：协程能做到可被控制的发起子任务
+
+* 轻量级：协程非常小，占用资源比线程还少
+
+* 语法糖：使多任务或多线程切换不再使用回调语法
+
+
+
+#### 启动协程
+
+* runBlocking T  用于执行协程任务，通常只用于启动最外层协程
+
+* launch：Job    用于执行协程任务
+
+* async/await：Deterred  用于执行协程任务，并得到执行结果
