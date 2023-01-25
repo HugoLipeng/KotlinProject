@@ -1,4 +1,4 @@
-package com.hugo.excise.KotlinProgrammingPractice
+package com.hugo.excise.kotlinProgrammingPractice
 
 fun main() {
     // 正向迭代

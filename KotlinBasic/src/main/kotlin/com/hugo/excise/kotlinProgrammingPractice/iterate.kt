@@ -1,4 +1,4 @@
-package com.hugo.excise.KotlinProgrammingPractice
+package com.hugo.excise.kotlinProgrammingPractice
 
 fun main() {
     val names = arrayOf("Tom", "Jerry", "Spike")

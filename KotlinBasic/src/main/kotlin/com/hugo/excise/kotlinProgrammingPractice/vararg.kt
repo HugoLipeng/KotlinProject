@@ -1,4 +1,4 @@
-package com.hugo.excise.KotlinProgrammingPractice
+package com.hugo.excise.kotlinProgrammingPractice
 
 
 fun max(vararg numbers: Int): Int {

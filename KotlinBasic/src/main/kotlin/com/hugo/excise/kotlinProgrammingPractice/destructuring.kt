@@ -1,4 +1,4 @@
-package com.hugo.excise.KotlinProgrammingPractice
+package com.hugo.excise.kotlinProgrammingPractice
 
 fun getFullName() = Triple("John", "Quincy", "Adams")
 

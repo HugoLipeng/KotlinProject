@@ -1,4 +1,4 @@
-package com.hugo.excise.KotlinProgrammingPractice
+package com.hugo.excise.kotlinProgrammingPractice
 
 fun main() {
     println(canVote("Eve", 12))
