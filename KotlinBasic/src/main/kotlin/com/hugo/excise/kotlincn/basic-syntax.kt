@@ -45,6 +45,14 @@ fun main() {
         }
         penUp()
     }
+
+    // 配置对象的属性（apply）
+    val myRectangle = Turtle().apply {
+        length = 4
+        breadth = 5
+        color = 0xFAFAFA
+    }
+    println(myRectangle.breadth)
 }
 
 fun sum(a: Int, b: Int): Int {
@@ -61,16 +69,22 @@ fun describe(obj: Any): String =
     }
 
 class Turtle {
-    fun penDown(){
+    var length: Int = 0
+    var breadth: Int = 0
+    var color: Int = 0
+    fun penDown() {
 
     }
-    fun penUp(){
+
+    fun penUp() {
 
     }
-    fun turn(degrees: Double){
+
+    fun turn(degrees: Double) {
 
     }
-    fun forward(pixels: Double){
+
+    fun forward(pixels: Double) {
 
     }
 }
