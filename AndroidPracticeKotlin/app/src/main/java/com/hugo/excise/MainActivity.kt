@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             send -> {
-                val content = inputText.text.toString()
+                val content = inputText.text.toString() // text ==> getText & setText
                 if (content.isNotEmpty()) {
                     val msg = Msg(content, Msg.TYPE_SENT)
                     msgList.add(msg)
