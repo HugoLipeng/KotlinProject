@@ -46,17 +46,13 @@ fun main() {
         penUp()
     }
 
-    // 配置对象的属性（apply）
+    // 配置对象的属性（apply） 这对于配置未出现在对象构造函数中的属性非常有用。
     val myRectangle = Turtle().apply {
         length = 4
         breadth = 5
         color = 0xFAFAFA
     }
     println(myRectangle.breadth)
-}
-
-fun sum(a: Int, b: Int): Int {
-    return a + b
 }
 
 fun describe(obj: Any): String =
